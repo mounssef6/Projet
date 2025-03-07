@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class User(models.Model):
     id         = models.AutoField(primary_key=True)
@@ -22,10 +23,10 @@ class Device(models.Model):
 
 class SensorData(models.Model):
     id          = models.AutoField(primary_key=True)
-    timestamp   = models.DateTimeField(auto_now_add=True)
-    temperature = models.FloatField()
-    humidity    = models.FloatField()
-    pressure    = models.FloatField(default=0.0)
+    timestamp   = models.DateTimeField(default=timezone.now, blank=True)
+    temperature = models.DecimalField(max_digits=6, decimal_places=2)
+    humidity    = models.DecimalField(max_digits=6, decimal_places=2)
+    pressure    = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
     device_id   = models.ForeignKey(Device, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
